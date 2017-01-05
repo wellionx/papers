@@ -18,9 +18,17 @@ git add .
 git commit -m "zhushi" #message
 git push origin master
 
-#上传不成功
+
 git branch -a #查看所有的分支
 
 在本地删除一个分支： git branch -d Branch1
 在github远程端删除一个分支： git push origin :Branch1 
 可以通过命令 Git remote show [remote-name] 查看某个远程仓库的详细信息
+
+#修改注释
+git commit --amend #智能修改最近一次的
+进入编辑模式，输入i,开始编辑。修改完成后，按ESC，输入:wq即可退出
+#修改很久之前的comment
+git rebase -i HEAD~3
+进入编辑模式，将pick改为edit，修改完成后，保存退出。
+git rebase -continue
