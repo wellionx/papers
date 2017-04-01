@@ -35,7 +35,22 @@ shapiro.test(resid(result))
 geno<-coef(result)$geno  #BLUP of HIR
 boxplot(geno)
 write.table(geno,"hir_DH_4env_blup_allver3.csv",sep=",")
-
+#### anove model ####
+##假设总体满足独立、正态，考察方差齐次性（用bartlett检验）
+bartlett.test(HIR~location,data=mydata)
+qqPlot(lm(HIR~location,data=mydata),simulate=T,main="Q-Q plot",labels=F)
+re1 <- aov(HIR~location + geno + location:geno, mydata)
+aggregate(HIR,by=list(location),FUN=mean)#各组均值
+re2 <- aov(HIR~location)
+summary(re1) 
+library(gplots)
+plotmeans(HIR~location,xlab="location",ylab="HIR",
+          main="mean plot\nwith 95% CI")
+##检测离群点
+library(car)
+outlierTest(re1)
+summary(re1)
+anova(re1)
 #single environment Shunyi Jinan Hainan shunyi
 mydata2<- subset(mydata,location=="Shunyi")
 
